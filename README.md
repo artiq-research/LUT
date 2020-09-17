@@ -1,10 +1,6 @@
-# 레포 제목
+# LUT
 
-레포 설명
-
-## LICENSE
-
-Check [LICENSE](LICENSE).
+파이썬 오픈씨비를 이용해 LUT 구현
 
 ## Installation
 

@@ -51,6 +51,7 @@ def automatic_brightness_and_contrast(image, clip_hist_percent=1):
     auto_result = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
     return (auto_result, alpha, beta)
 
+
 if __name__ == "__main__":
     image = cv2.imread('img/50343084823_48a0274a6a_c.jpg')
     auto_result, alpha, beta = automatic_brightness_and_contrast(image)

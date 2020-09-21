@@ -47,3 +47,6 @@ Follow the instructions in [QUICK_START.md](QUICK_START.md).
 ## Acknowledgments
 
 Adobe Lightroom
+
+Images by:
+* **Paul Boudreau** in Flickr

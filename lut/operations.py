@@ -137,7 +137,7 @@ def sample_lut_linear(lut, point):
     :param point: A tuple of 3 values with coordinates in the cube,
                   normalized from 0.0 to 1.0. Could be out of range.
     """
-    size1D, size2D, size3D = lut.size
+    size1D, size2D, _ = lut.size
     c = lut.channels
     s1Dc = size1D * c
     s12Dc = size1D * size2D * c

@@ -14,5 +14,3 @@ from .loaders import load_cube_file, load_hald_image
 from .generators import identity_table, rgb_color_enhance
 from .operations import (sample_lut_linear, sample_lut_cubic, resize_lut,
                          transform_lut, amplify_lut)
-
-print('loaded')

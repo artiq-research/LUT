@@ -140,8 +140,12 @@ def rgb_color_enhance(source,
             warmth = (warmth * 0.1765, warmth * -0.1255, warmth * 0.0902)
 
     if tint:
-        if not -255 <= tint <= 255:
+        if not -1.0 <= tint <= 1.0:
             raise ValueError("Warmth should be from -1.0 to 1.0")
+        if tint < 0:
+            tint = (tint * -0.0588, tint * -0.1569, tint * 0.1255)
+        else:
+            tint = (tint * 0.1765, tint * -0.1255, tint * 0.0902)
 
     if saturation:
         if not isinstance(saturation, (tuple, list)):
@@ -234,7 +238,12 @@ def rgb_color_enhance(source,
             r, g, b = _yuv_to_rgb(y, u, v)
 
         if tint:
-            g += tint
+            y, u, v = _rgb_to_yuv(r, g, b)
+            scale = numpy.sin(y * 3.14159)
+            y += scale * tint[0]
+            u += scale * tint[1]
+            v += scale * tint[2]
+            r, g, b = _yuv_to_rgb(y, v, u)
 
         if gamma != 1:
             r = r.clip(0) ** gamma[0]
@@ -292,7 +301,13 @@ def rgb_color_enhance(source,
             r, g, b = _yuv_to_rgb(y, u, v)
         
         if tint:
-            g += tint
+            y, u, v = _rgb_to_yuv(r, g, b)
+            scale = numpy.sin(y * 3.14159)
+            y += scale * tint[0]
+            u += scale * tint[1]
+            v += scale * tint[2]
+            r, g, b = _yuv_to_rgb(y, v, u)
+
 
         if hue:
             h, s, v = _rgb_to_hsv(r, g, b)

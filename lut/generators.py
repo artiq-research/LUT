@@ -78,7 +78,7 @@ def _yuv_to_rgb(y, u, v):
 
 
 def rgb_color_enhance(source,
-                      brightness=0, exposure=0, contrast=0, warmth=0,
+                      brightness=0, exposure=0, contrast=0, warmth=0, tint=0,
                       saturation=0, vibrance=0,
                       # highlights=0, shadows=0,
                       hue=0, gamma=1.0,
@@ -96,6 +96,7 @@ def rgb_color_enhance(source,
     :param contrast: One value for all channels, or tuple of three values
                      from -1.0 to 5.0.
     :param warmth: One value from -1.0 to 1.0.
+    :param tint: One value form -1.0 to 1.0.
     :param saturation: One value for all channels, or tuple of three values
                        from -1.0 to 5.0.
     :param vibrance: One value for all channels, or tuple of three values
@@ -137,6 +138,10 @@ def rgb_color_enhance(source,
             warmth = (warmth * -0.0588, warmth * -0.1569, warmth * 0.1255)
         else:
             warmth = (warmth * 0.1765, warmth * -0.1255, warmth * 0.0902)
+
+    if tint:
+        if not -255 <= tint <= 255:
+            raise ValueError("Warmth should be from -1.0 to 1.0")
 
     if saturation:
         if not isinstance(saturation, (tuple, list)):
@@ -221,13 +226,15 @@ def rgb_color_enhance(source,
             b += brightness[2]
 
         if warmth:
-            print('grb')
-            y, u, v = _rgb_to_yuv(g, r, b)
+            y, u, v = _rgb_to_yuv(r, g, b)
             scale = numpy.sin(y * 3.14159)
             y += scale * warmth[0]
             u += scale * warmth[1]
             v += scale * warmth[2]
             r, g, b = _yuv_to_rgb(y, u, v)
+
+        if tint:
+            g += tint
 
         if gamma != 1:
             r = r.clip(0) ** gamma[0]
@@ -283,6 +290,9 @@ def rgb_color_enhance(source,
             u += scale * warmth[1]
             v += scale * warmth[2]
             r, g, b = _yuv_to_rgb(y, u, v)
+        
+        if tint:
+            g += tint
 
         if hue:
             h, s, v = _rgb_to_hsv(r, g, b)

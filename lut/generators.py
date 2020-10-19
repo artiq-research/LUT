@@ -221,7 +221,8 @@ def rgb_color_enhance(source,
             b += brightness[2]
 
         if warmth:
-            y, u, v = _rgb_to_yuv(r, g, b)
+            print('brg')
+            y, u, v = _rgb_to_yuv(b, r, g)
             scale = numpy.sin(y * 3.14159)
             y += scale * warmth[0]
             u += scale * warmth[1]
@@ -281,7 +282,7 @@ def rgb_color_enhance(source,
             y += scale * warmth[0]
             u += scale * warmth[1]
             v += scale * warmth[2]
-            g, b, r = _yuv_to_rgb(y, u, v)
+            r, g, b = _yuv_to_rgb(y, u, v)
 
         if hue:
             h, s, v = _rgb_to_hsv(r, g, b)
